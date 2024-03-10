@@ -1,5 +1,6 @@
 using Account.Apis.Errors;
 using Account.Apis.Extentions;
+using Account.Core.Models.Account;
 using Account.Core.Models.Identity;
 using Account.Reposatory.Data.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -14,11 +15,15 @@ namespace Account.Apis
             var builder = WebApplication.CreateBuilder(args);
 
             #region configure service
+
             builder.Services.AddControllers();
+            builder.Services.Configure<MailSettings>(builder.Configuration.GetSection(nameof(MailSettings)));
+
+            builder.Services.AddIdentityServices(builder.Configuration);
 
             builder.Services.AddSwaggerService();
-            builder.Services.AddIdentityServices(builder.Configuration);
             builder.Services.AddAplictionService();
+
 
             #endregion
             var app = builder.Build();

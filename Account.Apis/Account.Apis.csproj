@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Account.Reposatory\Account.Reposatory.csproj" />
     <ProjectReference Include="..\Account.services\Account.services.csproj" />
   </ItemGroup>

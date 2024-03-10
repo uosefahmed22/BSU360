@@ -20,7 +20,8 @@ namespace Account.Apis.Extentions
             {
             })
             // Configure identity to use Entity Framework stores
-            .AddEntityFrameworkStores<AppIdentityDbContext>();
+            .AddEntityFrameworkStores<AppIdentityDbContext>()
+            .AddDefaultTokenProviders().AddRoles<IdentityRole>();
 
             // Add authentication services
             services.AddAuthentication(Options =>
@@ -52,6 +53,7 @@ namespace Account.Apis.Extentions
             // Register custom token service
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<ITokenService, TokenService>();
+            
             // Add here any other injections.....
             return services;
         }
