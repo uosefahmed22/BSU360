@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MailKit.Security;
 using BNS360.Core.CustemExceptions;
+using Account.Core.Dtos.Account;
 
 namespace Account.Reposatory.Reposatories
 {
@@ -24,7 +25,8 @@ namespace Account.Reposatory.Reposatories
         private readonly UserManager<AppUser> _userManager;
         private readonly MailSettings _mailSettings;
         public AccountService(UserManager<AppUser> userManager,
-            IOptionsMonitor<MailSettings> options)
+            IOptionsMonitor<MailSettings> options
+            )
         {
             _userManager = userManager;
             _mailSettings = options.CurrentValue;
@@ -36,7 +38,7 @@ namespace Account.Reposatory.Reposatories
 
             if (user is not null)
             {
-                return new ApiResponse(400, "Something went wrong");
+                return new ApiResponse(400, "User with this email already exists.");
             }
 
             user = new AppUser

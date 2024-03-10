@@ -27,23 +27,24 @@ namespace Account.Apis.Controllers
         public async Task<ActionResult<UserDto>> Register(Register model)
         {
 
-            var result = await _accountService.RegisterAsync(model, GenerateCallBackUrl);
-            
-            var User = await _userManager.FindByEmailAsync(model.Email);
-            if (User is not null)
-            {
-                return BadRequest(new ApiResponse(400, "Something went wrong"));
-            }
             if (!ModelState.IsValid)
             {
-                return BadRequest(new ApiResponse(404));
+                return BadRequest(ModelState);
             }
+
+            var result = await _accountService.RegisterAsync(model, GenerateCallBackUrl);
+
+            if (result.StatusCode == 400)
+            {
+                return BadRequest(result);
+            }
+            var User = await _userManager.FindByEmailAsync(model.Email);
            
             return Ok(new UserDto()
             {
                 DisplayName = model.DisplayName,
                 Email = model.Email,
-                Token = await _TokenService.CreateTokenAsync(User) //"this will be atoken" 
+                Token = await _TokenService.CreateTokenAsync(User) 
             });
 
         }
