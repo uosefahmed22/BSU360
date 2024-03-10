@@ -10,7 +10,7 @@ namespace Account.Core.Models.Account
     public class Register
     {
         [RegularExpression(@"^[a-zA-Z\u0600-\u06FF\s]+$", ErrorMessage = "Arabic and English letters are only allowed.")]
-        public string Name { get; set; }
+        public string DisplayName { get; set; }
         [EmailAddress(ErrorMessage = "Invalid email address")]
         public string Email { get; set; }
         [MinLength(8, ErrorMessage = "Minimum allowed length is 8 characters")]

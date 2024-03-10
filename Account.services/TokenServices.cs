@@ -29,8 +29,8 @@ namespace Account.services
             // 1. Private Claims
             var authClaims = new List<Claim>()
         {
-            new Claim(ClaimTypes.GivenName, user.DisplayName),
-            new Claim(ClaimTypes.Email, user.Email)
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.GivenName, user.DisplayName)
         };
 
             // 2. Register Claims

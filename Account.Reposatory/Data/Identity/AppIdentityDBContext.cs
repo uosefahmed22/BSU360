@@ -32,9 +32,10 @@ namespace Account.Reposatory.Data.Identity
         private static void SeedRoles(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<IdentityRole>().HasData(
-                new IdentityRole { Name = "Admin", ConcurrencyStamp = "1", NormalizedName = "Admin" },
-                new IdentityRole { Name = "User", ConcurrencyStamp = "2", NormalizedName = "User" }
-                //new IdentityRole { Name = "HR", ConcurrencyStamp = "3", NormalizedName = "HR" }
+                new IdentityRole { Name = "User", ConcurrencyStamp = "1", NormalizedName = "User" },
+                new IdentityRole { Name = "BussinesOwner", ConcurrencyStamp = "2", NormalizedName = "BussinesOwner" },
+                new IdentityRole { Name = "ServiceProvider", ConcurrencyStamp = "3", NormalizedName = "ServiceProvider" },
+                new IdentityRole { Name = "Admin", ConcurrencyStamp = "4", NormalizedName = "Admin" }
             );
         }
 
