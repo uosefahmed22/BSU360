@@ -51,9 +51,11 @@ namespace Account.Apis.Extentions
             });
 
             // Register custom token service
-            services.AddScoped<IAccountService, AccountService>();
-            services.AddScoped<ITokenService, TokenService>();
-            
+            services.AddScoped<IAccountService,AccountService>();
+            services.AddScoped<IOtpService, OtpService>();
+            services.AddScoped<ITokenService,TokenService>();
+
+
             // Add here any other injections.....
             return services;
         }

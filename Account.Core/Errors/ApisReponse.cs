@@ -1,10 +1,16 @@
-﻿namespace Account.Apis.Errors
+﻿using System.Text.Json.Serialization;
+
+namespace Account.Apis.Errors
 {
     public class ApiResponse
     {
+        [JsonIgnore]
         public int StatusCode { get; set; }
+        [JsonIgnore]
         public string Message { get; set; }
-
+        public ApiResponse()
+        {
+        }
         public ApiResponse(int statusCode, string message = null)
         {
             StatusCode = statusCode;

@@ -23,6 +23,7 @@ namespace Account.Apis
 
             builder.Services.AddSwaggerService();
             builder.Services.AddAplictionService();
+            builder.Services.AddMemoryCache();
 
 
             #endregion
@@ -59,6 +60,7 @@ namespace Account.Apis
 
 
             #region configure middlewares
+            app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
             app.UseMiddleware<ExeptionMiddleWares>();
 

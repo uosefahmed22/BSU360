@@ -5,14 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BNS360.Core.CustemExceptions
+namespace Account.Core.Errors
 {
     public class ItemNotFoundException : Exception
     {
         public ItemNotFoundException(string? message) : base(message) { }
         public static void Throw(string? message) =>
             throw new ItemNotFoundException(message);
-   
 
         public static void ThrowIfNull([NotNull] object? item, string paramName)
         {
