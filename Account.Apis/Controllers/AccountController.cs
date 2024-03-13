@@ -2,8 +2,9 @@
 using Account.Core.Dtos.Account;
 using Account.Core.Models.Account;
 using Account.Core.Models.Identity;
-using Account.Core.Services;
+using Account.Core.Services.Authentications;
 using Account.services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -48,7 +49,6 @@ namespace Account.Apis.Controllers
             }
             return Ok(result);
         }
-
         [HttpPost("forgetPassword")]
         public async Task<IActionResult> ForgetPassword([FromHeader][EmailAddress] string email)
         {

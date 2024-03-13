@@ -1,5 +1,5 @@
 ﻿using Account.Core.Models.Identity;
-using Account.Core.Services;
+using Account.Core.Services.Authentications;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;

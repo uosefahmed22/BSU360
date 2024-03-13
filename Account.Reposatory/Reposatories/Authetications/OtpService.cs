@@ -1,4 +1,4 @@
-﻿using Account.Core.Services;
+﻿using Account.Core.Services.Authentications;
 using Microsoft.Extensions.Caching.Memory;
 using OtpNet;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Account.Reposatory.Reposatories
+namespace Account.Reposatory.Reposatories.Authetications
 {
     public class OtpService : IOtpService
     {

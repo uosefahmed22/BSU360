@@ -1,7 +1,6 @@
 ﻿using Account.Apis.Errors;
 using Account.Core.Models.Account;
 using Account.Core.Models.Identity;
-using Account.Core.Services;
 using Account.Reposatory.Data.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,8 +19,9 @@ using Account.Core.Errors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Caching.Memory;
+using Account.Core.Services.Authentications;
 
-namespace Account.Reposatory.Reposatories
+namespace Account.Reposatory.Reposatories.Authetications
 {
     public class AccountService : IAccountService
     {
@@ -117,7 +117,7 @@ namespace Account.Reposatory.Reposatories
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
             {
-                return new ApiResponse(400,"User not found.");
+                return new ApiResponse(400, "User not found.");
             }
 
             var otp = _otpService.GenerateOtp(email);
@@ -132,7 +132,7 @@ namespace Account.Reposatory.Reposatories
             }
             catch (Exception ex)
             {
-                return new ApiResponse(500,"An unexpected error occurred while sending the password reset email. Please try again later.");
+                return new ApiResponse(500, "An unexpected error occurred while sending the password reset email. Please try again later.");
             }
         }
         public ApiResponse VerfiyOtp(VerifyOtp dto)
@@ -175,8 +175,8 @@ namespace Account.Reposatory.Reposatories
             {
                 // Password reset failed
                 return new ApiResponse(500, "Failed to reset password.");
+            }
         }
-    }
         public async Task<bool> ConfirmUserEmailAsync(string userId, string token)
         {
             var user = await _userManager.FindByIdAsync(userId);

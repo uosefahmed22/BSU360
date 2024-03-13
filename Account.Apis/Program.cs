@@ -2,6 +2,7 @@ using Account.Apis.Errors;
 using Account.Apis.Extentions;
 using Account.Core.Models.Account;
 using Account.Core.Models.Identity;
+using Account.Reposatory.Data.Business;
 using Account.Reposatory.Data.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,7 @@ namespace Account.Apis
             builder.Services.AddIdentityServices(builder.Configuration);
 
             builder.Services.AddSwaggerService();
-            builder.Services.AddAplictionService();
+            builder.Services.AddAplictionService(builder.Configuration);
             builder.Services.AddMemoryCache();
 
 
@@ -39,16 +40,20 @@ namespace Account.Apis
             try
             {
                 // Get the database context for Identity
-                var identityDbContext = Services.GetRequiredService<AppIdentityDbContext>();
-
                 // Apply database migration asynchronously
-                await identityDbContext.Database.MigrateAsync();
-
                 // Get the UserManager service to manage users
-                var usermanager = Services.GetRequiredService<UserManager<AppUser>>();
-
                 // Seed initial user data for the Identity context
                 //await AppIdentityDbContextSeed.SeedUserAsync(usermanager);
+
+                var identityDbContext = Services.GetRequiredService<AppIdentityDbContext>();
+                await identityDbContext.Database.MigrateAsync();
+                
+                var usermanager = Services.GetRequiredService<UserManager<AppUser>>();
+
+                var BusinessDbContext = Services.GetRequiredService<BusnissDbContext>();
+                await BusinessDbContext.Database.MigrateAsync();
+
+
             }
             catch (Exception ex)
             {

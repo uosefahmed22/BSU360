@@ -1,7 +1,7 @@
 ﻿using Account.Core.Models.Identity;
-using Account.Core.Services;
+using Account.Core.Services.Authentications;
 using Account.Reposatory.Data.Identity;
-using Account.Reposatory.Reposatories;
+using Account.Reposatory.Reposatories.Authetications;
 using Account.services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;

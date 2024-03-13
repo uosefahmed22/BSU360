@@ -1,13 +1,19 @@
 ﻿using Account.Apis.Errors;
+using Account.Core.Services.Business;
+using Account.Reposatory.Data.Business;
+using Account.Reposatory.Data.Identity;
+using Account.Reposatory.Reposatories.Buisness;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Account.Apis.Extentions
 {
     public static class ApplictionServiceExtention
     {
-        public static IServiceCollection AddAplictionService(this IServiceCollection service)
+        public static IServiceCollection AddAplictionService(this IServiceCollection service, IConfiguration configuration)
         {
             // Configure API behavior options
+
             service.Configure<ApiBehaviorOptions>(Options =>
             {
                 // Customize the behavior for handling invalid model state
@@ -31,9 +37,14 @@ namespace Account.Apis.Extentions
                 };
             });
 
-            // Register a scoped service for payment services
-            //service.AddScoped<IPaymentServices, PaymentServices>();
+            service.AddDbContext<BusnissDbContext>(Options =>
+            {
+                Options.UseSqlServer(configuration.GetConnectionString("BusinessConnections"));
+            });
 
+            // Register a scoped service for payment services
+
+            service.AddScoped<IBusnissRepository, BusnissRepository>();
             //Add here anny otehrt injection related to program....
             return service;
         }
