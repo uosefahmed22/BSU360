@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Account.Core.Models.ProjectBusiness.Helpers
+namespace Account.Core.Helpers
 {
     /*
      * Read: This method is responsible for deserializing JSON to a TimeOnly object.

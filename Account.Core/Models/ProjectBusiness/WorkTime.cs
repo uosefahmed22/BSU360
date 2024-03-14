@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Account.Core.Models.ProjectBusiness.DTO;
+using Account.Core.Dtos.Business;
 
 namespace Account.Core.Models.ProjectBusiness
 {
@@ -38,5 +38,8 @@ namespace Account.Core.Models.ProjectBusiness
                 };
             }
         }
+        public TimeOnly StartAsTimeOnly => TimeOnly.FromTimeSpan(Start);
+        public TimeOnly EndAsTimeonly => TimeOnly.FromTimeSpan(End);
+
     }
 }

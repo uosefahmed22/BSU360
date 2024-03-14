@@ -1,4 +1,9 @@
-﻿using Account.Core.Models.Response;
+﻿using Account.Apis.Errors;
+using Account.Core.Dtos.Business.Request;
+using Account.Core.Dtos.Business.Response;
+using Account.Core.Models.Projectbusiness;
+using Account.Core.Models.ProjectBusiness;
+using Account.Core.Models.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +14,17 @@ namespace Account.Core.Services.Business
 {
     public interface IBusnissRepository
     {
-        Task<IReadOnlyList<BusinessResponse>> GetAllBusinessesWithCategoryIdAsync(Guid Id);
+        Task<ApiResponse> CreateBusinessAsync(BusnisRequest request, Guid userId);
+        Task<ApiResponse> CreateCategoryAsync(CategoryDto categoryDto);
+        Task<ApiResponse> UpdateBusinessAsync(BusinessUpdateRequest request, Guid ownerId);
+        Task<ApiResponse> UpdateCategoryAsync(CategoryUpdateRequest request, Guid CategoeryId);
+        Task<IReadOnlyList<BusnissReponse>> GetAllBusnissWithCategoryIdAsync(Guid Id);
+        Task<IReadOnlyList<BusnissReponse>> GetRecommendedAsync();
+        Task<ApiResponse> GetByIdAsync(Guid Id);
+        Task<ApiResponse> Paganate(int pageNumber, int pageSize, Guid categoryId);
+        Task<ApiResponse> DeleteAsync(Guid id, Guid ownerId);
+
+
 
     }
 }

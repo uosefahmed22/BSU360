@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace Account.Core.Models.Response
 {
-    public record ReviewSummary(int ReviewsCount, float AverageRate);
+    public record ReviewSummary(int TotalReviews, double AverageRating);
 
 }
