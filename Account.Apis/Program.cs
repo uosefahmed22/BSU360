@@ -50,7 +50,7 @@ namespace Account.Apis
                 
                 var usermanager = Services.GetRequiredService<UserManager<AppUser>>();
 
-                var BusinessDbContext = Services.GetRequiredService<BusnissDbContext>();
+                var BusinessDbContext = Services.GetRequiredService<BusinessDbContext>();
                 await BusinessDbContext.Database.MigrateAsync();
 
 

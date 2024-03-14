@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace Account.Core.Models.ProjectBusiness
 {
-    public class Favorite
+    public class Holiday
     {
-        public Guid UserId { get; set; }
-    }
-    public class FavoriteBusniss : Favorite
-    {
-        public Guid BusnissId { get; set; }
+        public int Id { get; set; }
+        public Guid BusinessId { get; set; }
+        public DateTime HolidayDate { get; set; }
     }
 }

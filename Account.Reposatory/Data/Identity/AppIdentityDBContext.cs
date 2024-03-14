@@ -19,13 +19,10 @@ namespace Account.Reposatory.Data.Identity
 
         }
 
-        // This method is called when the model is being created. 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // This line searches for any classes that implement the 
-            // IEntityTypeConfiguration interface within the current assembly 
             SeedRoles(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }

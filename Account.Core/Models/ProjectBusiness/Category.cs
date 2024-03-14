@@ -17,7 +17,6 @@ namespace Account.Core.Models.ProjectBusiness
         [Required(ErrorMessage = "Picture URL is required.")]
         public string PictureUrl { get; set; }
 
-        // Ignoring this property during JSON serialization to avoid circular references
         [JsonIgnore] 
         public ICollection<BusinessModel>? Businesses { get; set; }
     }
