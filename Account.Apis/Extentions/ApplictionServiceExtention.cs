@@ -45,7 +45,9 @@ namespace Account.Apis.Extentions
             // Register a scoped service for payment services
 
             service.AddScoped<IBusnissRepository, BusnissRepository>();
-            
+            service.AddScoped<ICategoryRepository, CategoryRepository>();
+
+
 
 
             //Add here anny otehrt injection related to program....

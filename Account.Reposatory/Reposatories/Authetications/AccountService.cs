@@ -15,7 +15,6 @@ using System.Text;
 using System.Threading.Tasks;
 using MailKit.Security;
 using Account.Core.Dtos.Account;
-using Account.Core.Errors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Caching.Memory;

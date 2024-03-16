@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Dtos\Business\" />
     <Folder Include="Helpers\" />
   </ItemGroup>
 
