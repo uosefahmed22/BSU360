@@ -77,7 +77,6 @@ namespace Account.Reposatory.Reposatories.Buisness
 
             return existingCategory;
         }
-
         public async Task<List<Category>> GetAllCategoryAsync()
         {
             return await _context.Categories.ToListAsync();

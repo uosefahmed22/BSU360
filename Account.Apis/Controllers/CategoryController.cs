@@ -2,6 +2,7 @@
 using Account.Core.Dtos.Business;
 using Account.Core.Models.ProjectBusiness;
 using Account.Core.Services.Business;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,8 @@ namespace Account.Apis.Controllers
             _categoryRepository = categoryRepository;
         }
         [HttpPost("CreateCategory")]
+        [Authorize(Roles = "Admin")]
+       
         public async Task<IActionResult> AddCategory([FromBody] CategoryDto categoryDto)
         {
             try

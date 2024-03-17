@@ -46,6 +46,16 @@ namespace Account.Apis.Extentions
 
             service.AddScoped<IBusnissRepository, BusnissRepository>();
             service.AddScoped<ICategoryRepository, CategoryRepository>();
+            service.AddScoped<IReviewRepository, ReviewRepository>();
+            service.AddScoped<IFavoriteRepository,FavoriteRepository>();
+            service.AddScoped<IRatingRepository, RatingRepository>();
+            service.AddScoped<IHolidayRepository, HolidayRepository>();
+            service.AddScoped<IContactRepository, ContactRepository>();
+
+
+
+
+
 
 
 

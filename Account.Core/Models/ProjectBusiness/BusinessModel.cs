@@ -23,7 +23,9 @@ namespace Account.Core.Models.Projectbusiness
         public string? ProfilePictureUrl { get; set; }
         public string? AlbumUrl { get; set; }
         public virtual Category? Category { get; set; }
-        public virtual Location? Location { get; set; }
+        public decimal Latitude { get; set; }
+        public decimal Longitude { get; set; }
+        public string Address { get; set; }
         public int WorkStartHour { get; set; }
         public int WorkEndHour { get; set; }
         public int WorkingDays { get; set; }

@@ -13,8 +13,8 @@ namespace Account.Core.Models.ProjectBusiness
         [Range(1, 5, ErrorMessage = "Rating value must be between 1 and 5.")]
         public int Value { get; set; }
 
-        // Navigation property
         public Guid BusinessId { get; set; }
         public BusinessModel Business { get; set; }
     }
+
 }

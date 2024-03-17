@@ -1,5 +1,6 @@
 ﻿using Account.Core.Models.Projectbusiness;
 using Account.Core.Models.ProjectBusiness;
+using Account.Core.Models.ProjectBusiness.Contacts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -25,6 +26,8 @@ namespace Account.Reposatory.Data.Business
 
         // Entity sets
         public DbSet<BusinessModel> Businesses { get; set; }
+        public DbSet<Holiday> Holidays { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Rating> Ratings { get; set; }

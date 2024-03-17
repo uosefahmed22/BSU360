@@ -12,9 +12,6 @@ namespace Account.Core.Services.Business
 {
     public interface IBusnissRepository
     {
-
-        #region Filteration
-
-        #endregion
-    }
+        
+    }   
 }

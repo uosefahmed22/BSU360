@@ -12,6 +12,7 @@ namespace Account.Core.Models.ProjectBusiness
 {
     public class Category : BaseEntity
     {
+
         [Required(ErrorMessage = "Name is required.")]
         public string Name { get; set; }
 
