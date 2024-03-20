@@ -11,7 +11,6 @@ namespace Account.Core.Models.ProjectBusiness.Related
     public class Favorite : BaseEntity
     {
         public AppUser User { get; set; }
-
         public Guid BusinessId { get; set; }
         public BusinessModel Business { get; set; }
     }

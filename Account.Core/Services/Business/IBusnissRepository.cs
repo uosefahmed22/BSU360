@@ -12,6 +12,10 @@ namespace Account.Core.Services.Business
 {
     public interface IBusnissRepository
     {
-        
+        Task<BusinessModel> GetByIdAsync(Guid id);
+        Task<IEnumerable<BusinessModel>> GetAllAsync();
+        Task<ApiResponse> AddBusnissAsync(BusinessModel businessModel);
+        Task<ApiResponse> UpdateAsync(BusinessModel businessModel);
+        Task DeleteAsync(Guid id);
     }   
 }

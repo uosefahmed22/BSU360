@@ -22,6 +22,32 @@ namespace Account.Reposatory.Reposatories.Buisness
             _context = context;
         }
 
+        public async Task<ApiResponse> AddBusnissAsync(BusinessModel businessModel)
+        {
+            _context.Businesses.Add(businessModel);
+            await _context.SaveChangesAsync();
 
+            return new ApiResponse(200, "Business added successfully.");
+        }
+
+        public Task DeleteAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<BusinessModel>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<BusinessModel> GetByIdAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ApiResponse> UpdateAsync(BusinessModel businessModel)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

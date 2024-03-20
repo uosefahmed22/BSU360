@@ -130,17 +130,18 @@ namespace Account.Reposatory.Reposatories.Buisness
         {
             var contacts = await _dbContext.Businesses
                 .Where(b => b.Id == businessId)
-                .SelectMany(b => b.Contacts)
+                .SelectMany(b => b.Contacts) 
                 .Select(c => new ContactDto
                 {
-                    Emails = c.Contact.Emails.Select(e => e.Email).ToList(),
-                    PhoneNumbers = c.Contact.PhoneNumbers.Select(p => p.PhoneNumber).ToList(),
-                    UrlSites = c.Contact.URlSites.Select(u => u.UrlSite).ToList()
+                    Emails = c.Emails.Select(e => e.Email).ToList(),
+                    PhoneNumbers = c.PhoneNumbers.Select(p => p.PhoneNumber).ToList(),
+                    UrlSites = c.URlSites.Select(u => u.UrlSite).ToList()
                 })
                 .ToListAsync();
 
             return contacts;
         }
+
         public async Task<ContactDto> GetContactByIdAsync(Guid id)
         {
             var contactDto = await _dbContext.Contacts
