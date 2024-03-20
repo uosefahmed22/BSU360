@@ -6,6 +6,7 @@ using Account.Reposatory.Data.Business;
 using Account.Reposatory.Data.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace Account.Apis
 {
@@ -17,7 +18,11 @@ namespace Account.Apis
 
             #region configure service
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().Services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+                });
             builder.Services.Configure<MailSettings>(builder.Configuration.GetSection(nameof(MailSettings)));
 
             builder.Services.AddIdentityServices(builder.Configuration);
@@ -47,7 +52,7 @@ namespace Account.Apis
 
                 var identityDbContext = Services.GetRequiredService<AppIdentityDbContext>();
                 await identityDbContext.Database.MigrateAsync();
-                
+
                 var usermanager = Services.GetRequiredService<UserManager<AppUser>>();
 
                 var BusinessDbContext = Services.GetRequiredService<BusinessDbContext>();

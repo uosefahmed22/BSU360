@@ -1,5 +1,6 @@
 ﻿using Account.Apis.Errors;
 using Account.Core.Dtos.Business;
+using Account.Core.Dtos.Business.ContactsGertAll;
 using Account.Core.Models.ProjectBusiness.Contacts;
 using System;
 using System.Collections.Generic;
@@ -11,11 +12,11 @@ namespace Account.Core.Services.Business
 {
     public interface IContactRepository
     {
-        Task<Contact> GetContactByIdAsync(int id);
-        Task<List<Contact>> GetAllContactsAsync();
-        Task<List<Contact>> GetContactsForBusinessAsync(Guid businessId);
-        Task<ApiResponse> AddContactAsync(Guid businessId, ContactDto contactDto);
-        Task<ApiResponse> UpdateContactAsync(int id , Guid businessId, ContactDto contactDto);
-        Task<ApiResponse> DeleteContactAsync(int id);
+        Task<ContactDto> GetContactByIdAsync(Guid id);
+        Task<IEnumerable<ContactDto>> GetAllContactsAsync();
+        Task<IEnumerable<ContactDto>> GetAllContactsForBusinessAsync(Guid businessId);
+        Task<ApiResponse> AddContactAsync(List<string> emails, List<string> phoneNumbers, List<string> urls);
+        Task<ApiResponse> UpdateContactAsync(Guid contactId, List<string> emails, List<string> phoneNumbers, List<string> urls);
+        Task<ApiResponse> DeleteContactAsync(Guid id);
     }
 }

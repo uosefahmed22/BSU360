@@ -1,5 +1,5 @@
 ﻿using Account.Apis.Errors;
-using Account.Core.Models.ProjectBusiness;
+using Account.Core.Models.ProjectBusiness.Related;
 using System;
 using System.Collections.Generic;
 using System.Linq;

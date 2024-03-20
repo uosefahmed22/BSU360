@@ -104,14 +104,21 @@ namespace Account.Reposatory.Data.Identity.Migrations
                     b.Property<string>("AboutENG")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("AlbumUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("CategoryId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("LocationId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<decimal>("Latitude")
+                        .HasColumnType("decimal(10,8)");
+
+                    b.Property<decimal>("Longitude")
+                        .HasColumnType("decimal(11,8)");
 
                     b.Property<string>("NameAR")
                         .IsRequired()
@@ -138,8 +145,6 @@ namespace Account.Reposatory.Data.Identity.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("LocationId");
-
                     b.ToTable("BusinessModel");
                 });
 
@@ -162,26 +167,15 @@ namespace Account.Reposatory.Data.Identity.Migrations
                     b.ToTable("Category");
                 });
 
-            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Contacts.Contact", b =>
+            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Contacts.Contacts", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("BusinessId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("BusinessModelId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("SiteUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("BusinessModelId");
-
-                    b.ToTable("Contact");
+                    b.ToTable("Contacts");
                 });
 
             modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Contacts.Emails", b =>
@@ -214,6 +208,9 @@ namespace Account.Reposatory.Data.Identity.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<Guid?>("BusinessModelId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("ContactId")
                         .HasColumnType("uniqueidentifier");
 
@@ -223,9 +220,33 @@ namespace Account.Reposatory.Data.Identity.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BusinessModelId");
+
                     b.HasIndex("ContactId");
 
                     b.ToTable("PhoneNumbers");
+                });
+
+            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Contacts.URlSites", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<Guid>("ContactId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UrlSite")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContactId");
+
+                    b.ToTable("URlSites");
                 });
 
             modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Favorite", b =>
@@ -272,30 +293,6 @@ namespace Account.Reposatory.Data.Identity.Migrations
                     b.HasIndex("BusinessModelId");
 
                     b.ToTable("Holiday");
-                });
-
-            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Location", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("BusinessId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("Latitude")
-                        .HasColumnType("decimal(10,7)");
-
-                    b.Property<decimal>("Longitude")
-                        .HasColumnType("decimal(10,7)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Location");
                 });
 
             modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Rating", b =>
@@ -366,28 +363,28 @@ namespace Account.Reposatory.Data.Identity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "15904381-d9d0-4a97-b1a4-15fbd56fcffb",
+                            Id = "2a336661-8f92-4f93-b5ba-dc85fb3bbf49",
                             ConcurrencyStamp = "1",
                             Name = "User",
                             NormalizedName = "User"
                         },
                         new
                         {
-                            Id = "b49e814a-6597-40b9-977b-dd5316aca9df",
+                            Id = "13098d52-1bdd-4ace-936b-e3a96e7e9a47",
                             ConcurrencyStamp = "2",
                             Name = "BussinesOwner",
                             NormalizedName = "BussinesOwner"
                         },
                         new
                         {
-                            Id = "3260d0bd-c020-4dc2-8fe7-50252a59ef13",
+                            Id = "d6f1397d-3d73-49b8-be58-9e0c7d53a75b",
                             ConcurrencyStamp = "3",
                             Name = "ServiceProvider",
                             NormalizedName = "ServiceProvider"
                         },
                         new
                         {
-                            Id = "7f6dc1fb-a0ac-4300-a842-a147a78c9cbf",
+                            Id = "b16f1869-d1a7-4b78-af1d-a1a1229a1e13",
                             ConcurrencyStamp = "4",
                             Name = "Admin",
                             NormalizedName = "Admin"
@@ -506,25 +503,12 @@ namespace Account.Reposatory.Data.Identity.Migrations
                         .WithMany("Businesses")
                         .HasForeignKey("CategoryId");
 
-                    b.HasOne("Account.Core.Models.ProjectBusiness.Location", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationId");
-
                     b.Navigation("Category");
-
-                    b.Navigation("Location");
-                });
-
-            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Contacts.Contact", b =>
-                {
-                    b.HasOne("Account.Core.Models.Projectbusiness.BusinessModel", null)
-                        .WithMany("Contacts")
-                        .HasForeignKey("BusinessModelId");
                 });
 
             modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Contacts.Emails", b =>
                 {
-                    b.HasOne("Account.Core.Models.ProjectBusiness.Contacts.Contact", "Contact")
+                    b.HasOne("Account.Core.Models.ProjectBusiness.Contacts.Contacts", "Contact")
                         .WithMany("Emails")
                         .HasForeignKey("ContactId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -535,8 +519,23 @@ namespace Account.Reposatory.Data.Identity.Migrations
 
             modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Contacts.PhoneNumbers", b =>
                 {
-                    b.HasOne("Account.Core.Models.ProjectBusiness.Contacts.Contact", "Contact")
+                    b.HasOne("Account.Core.Models.Projectbusiness.BusinessModel", null)
+                        .WithMany("Contacts")
+                        .HasForeignKey("BusinessModelId");
+
+                    b.HasOne("Account.Core.Models.ProjectBusiness.Contacts.Contacts", "Contact")
                         .WithMany("PhoneNumbers")
+                        .HasForeignKey("ContactId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Contact");
+                });
+
+            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Contacts.URlSites", b =>
+                {
+                    b.HasOne("Account.Core.Models.ProjectBusiness.Contacts.Contacts", "Contact")
+                        .WithMany("URlSites")
                         .HasForeignKey("ContactId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -666,11 +665,13 @@ namespace Account.Reposatory.Data.Identity.Migrations
                     b.Navigation("Businesses");
                 });
 
-            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Contacts.Contact", b =>
+            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Contacts.Contacts", b =>
                 {
                     b.Navigation("Emails");
 
                     b.Navigation("PhoneNumbers");
+
+                    b.Navigation("URlSites");
                 });
 #pragma warning restore 612, 618
         }

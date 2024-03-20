@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Account.Core.Models.ProjectBusiness
+namespace Account.Core.Dtos.Business.ContactsGertAll
 {
-    public class Holiday
+    public class PhoneNumberDto
     {
         public int Id { get; set; }
-        public Guid BusinessId { get; set; }
-        public DateTime HolidayDate { get; set; }
+        public string PhoneNumber { get; set; }
     }
 }

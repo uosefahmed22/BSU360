@@ -19,7 +19,7 @@ namespace Account.Core.Models.ProjectBusiness
         [Required(ErrorMessage = "Picture URL is required.")]
         public string PictureUrl { get; set; }
 
-        [JsonIgnore] 
+        [JsonIgnore]
         public ICollection<BusinessModel>? Businesses { get; set; }
     }
 }

@@ -1,17 +1,17 @@
-﻿using Account.Core.Models.Projectbusiness;
+﻿using Account.Core.Models.Identity;
+using Account.Core.Models.Projectbusiness;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Account.Core.Models.ProjectBusiness
+namespace Account.Core.Models.ProjectBusiness.Related
 {
-    public class Review : BaseEntity
+    public class Favorite : BaseEntity
     {
-        public string Text { get; set; }
+        public AppUser User { get; set; }
 
-        // Navigation properties
         public Guid BusinessId { get; set; }
         public BusinessModel Business { get; set; }
     }

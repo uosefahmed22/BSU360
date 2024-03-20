@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Account.Reposatory.Data.Business.Migrations
 {
     [DbContext(typeof(BusinessDbContext))]
-    [Migration("20240317053854_initialMigration5")]
-    partial class initialMigration5
+    [Migration("20240320021832_initialMigration")]
+    partial class initialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -156,24 +156,13 @@ namespace Account.Reposatory.Data.Business.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Contacts.Contact", b =>
+            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Contacts.Contacts", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("BusinessId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("BusinessModelId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("SiteUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("BusinessModelId");
 
                     b.ToTable("Contacts");
                 });
@@ -181,15 +170,19 @@ namespace Account.Reposatory.Data.Business.Migrations
             modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Contacts.Emails", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(450)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<Guid>("ContactId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id", "Email");
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("ContactId");
 
@@ -199,19 +192,50 @@ namespace Account.Reposatory.Data.Business.Migrations
             modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Contacts.PhoneNumbers", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(450)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<Guid?>("BusinessModelId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ContactId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id", "PhoneNumber");
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BusinessModelId");
 
                     b.HasIndex("ContactId");
 
                     b.ToTable("PhoneNumbers");
+                });
+
+            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Contacts.URlSites", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<Guid>("ContactId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UrlSite")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContactId");
+
+                    b.ToTable("URlSites");
                 });
 
             modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Favorite", b =>
@@ -307,16 +331,9 @@ namespace Account.Reposatory.Data.Business.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Contacts.Contact", b =>
-                {
-                    b.HasOne("Account.Core.Models.Projectbusiness.BusinessModel", null)
-                        .WithMany("Contacts")
-                        .HasForeignKey("BusinessModelId");
-                });
-
             modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Contacts.Emails", b =>
                 {
-                    b.HasOne("Account.Core.Models.ProjectBusiness.Contacts.Contact", "Contact")
+                    b.HasOne("Account.Core.Models.ProjectBusiness.Contacts.Contacts", "Contact")
                         .WithMany("Emails")
                         .HasForeignKey("ContactId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -327,8 +344,23 @@ namespace Account.Reposatory.Data.Business.Migrations
 
             modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Contacts.PhoneNumbers", b =>
                 {
-                    b.HasOne("Account.Core.Models.ProjectBusiness.Contacts.Contact", "Contact")
+                    b.HasOne("Account.Core.Models.Projectbusiness.BusinessModel", null)
+                        .WithMany("Contacts")
+                        .HasForeignKey("BusinessModelId");
+
+                    b.HasOne("Account.Core.Models.ProjectBusiness.Contacts.Contacts", "Contact")
                         .WithMany("PhoneNumbers")
+                        .HasForeignKey("ContactId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Contact");
+                });
+
+            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Contacts.URlSites", b =>
+                {
+                    b.HasOne("Account.Core.Models.ProjectBusiness.Contacts.Contacts", "Contact")
+                        .WithMany("URlSites")
                         .HasForeignKey("ContactId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -405,11 +437,13 @@ namespace Account.Reposatory.Data.Business.Migrations
                     b.Navigation("Businesses");
                 });
 
-            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Contacts.Contact", b =>
+            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Contacts.Contacts", b =>
                 {
                     b.Navigation("Emails");
 
                     b.Navigation("PhoneNumbers");
+
+                    b.Navigation("URlSites");
                 });
 #pragma warning restore 612, 618
         }

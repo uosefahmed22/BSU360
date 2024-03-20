@@ -1,6 +1,8 @@
 ﻿using Account.Apis.Errors;
 using Account.Core.Dtos.Business;
+using Account.Core.Dtos.Business.ContactsGertAll;
 using Account.Core.Models.ProjectBusiness.Contacts;
+using Account.Core.Services;
 using Account.Core.Services.Business;
 using Account.Reposatory.Data.Business;
 using Microsoft.EntityFrameworkCore;
@@ -14,65 +16,144 @@ namespace Account.Reposatory.Reposatories.Buisness
 {
     public class ContactRepository : IContactRepository
     {
-        private readonly BusinessDbContext _context;
-
+        private readonly BusinessDbContext _dbContext;
         public ContactRepository(BusinessDbContext context)
         {
-            _context = context;
+            _dbContext = context;
         }
-        public async Task<ApiResponse> AddContactAsync(Guid businessId, ContactDto contactDto)
+        public async Task<ApiResponse> AddContactAsync(List<string> emails, List<string> phoneNumbers, List<string> urls)
         {
             try
             {
-                var business = await _context.Businesses.FindAsync(businessId);
-                if (business == null)
+                var contact = new Contacts();
+
+                foreach (var email in emails)
                 {
-                    return new ApiResponse(404, "Business not found");
+                    contact.Emails.Add(new Emails { Email = email });
                 }
 
-                var contact = new Contact
+                foreach (var phoneNumber in phoneNumbers)
                 {
-                    PhoneNumbers = contactDto.PhoneNumbers.Select(p => new PhoneNumbers { PhoneNumber = p }).ToList(),
-                    Emails = contactDto.Emails.Select(e => new Emails { Email = e }).ToList(),
-                    SiteUrl = contactDto.SiteUrl,
-                    BusinessId = businessId
-                };
+                    contact.PhoneNumbers.Add(new PhoneNumbers { PhoneNumber = phoneNumber });
+                }
 
-                _context.Contacts.Add(contact);
+                foreach (var url in urls)
+                {
+                    contact.URlSites.Add(new URlSites { UrlSite = url });
+                }
 
-                await _context.SaveChangesAsync();
+                _dbContext.Contacts.Add(contact);
+                await _dbContext.SaveChangesAsync();
 
-                return new ApiResponse(200, "Contact added successfully");
+                return new ApiResponse(200, "Contact added successfully.");
             }
             catch (Exception ex)
             {
-                return new ApiResponse(500, $"An error occurred while adding the contact: {ex.Message}");
+                return new ApiResponse(500, "Failed to add contact: " + ex.Message);
             }
         }
-
-        public Task<ApiResponse> DeleteContactAsync(int id)
+        public async Task<ApiResponse> UpdateContactAsync(Guid contactId, List<string> emails, List<string> phoneNumbers, List<string> urls)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var contact = await _dbContext.Contacts
+                    .Include(c => c.Emails)
+                    .Include(c => c.PhoneNumbers)
+                    .Include(c => c.URlSites)
+                    .FirstOrDefaultAsync(c => c.Id == contactId);
+
+                if (contact == null)
+                {
+                    return new ApiResponse(404, "Contact not found.");
+                }
+
+                contact.Emails.Clear();
+                contact.PhoneNumbers.Clear();
+                contact.URlSites.Clear();
+
+                foreach (var email in emails)
+                {
+                    contact.Emails.Add(new Emails { Email = email });
+                }
+
+                foreach (var phoneNumber in phoneNumbers)
+                {
+                    contact.PhoneNumbers.Add(new PhoneNumbers { PhoneNumber = phoneNumber });
+                }
+
+                foreach (var url in urls)
+                {
+                    contact.URlSites.Add(new URlSites { UrlSite = url });
+                }
+
+                await _dbContext.SaveChangesAsync();
+
+                return new ApiResponse(200, "Contact updated successfully.");
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse(500, "Failed to update contact: " + ex.Message);
+            }
         }
-
-        public Task<List<Contact>> GetAllContactsAsync()
+        public async Task<ApiResponse> DeleteContactAsync(Guid id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var contact = await _dbContext.Contacts.FindAsync(id);
+                if (contact == null)
+                    return new ApiResponse(404, "Contact not found.");
+
+                _dbContext.Contacts.Remove(contact);
+                await _dbContext.SaveChangesAsync();
+
+                return new ApiResponse(200, "Contact deleted successfully.");
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse(500, "Failed to delete contact: " + ex.Message);
+            }
         }
-
-        public Task<Contact> GetContactByIdAsync(int id)
+        public async Task<IEnumerable<ContactDto>> GetAllContactsAsync()
         {
-            throw new NotImplementedException();
+            var contacts = await _dbContext.Contacts
+                .Select(c => new ContactDto
+                {
+                    Emails = c.Emails.Select(e => e.Email).ToList(),
+                    PhoneNumbers = c.PhoneNumbers.Select(p => p.PhoneNumber).ToList(),
+                    UrlSites = c.URlSites.Select(u => u.UrlSite).ToList()
+                })
+                .ToListAsync();
+
+            return contacts;
         }
-
-        public Task<List<Contact>> GetContactsForBusinessAsync(Guid businessId)
+        public async Task<IEnumerable<ContactDto>> GetAllContactsForBusinessAsync(Guid businessId)
         {
-            throw new NotImplementedException();
+            var contacts = await _dbContext.Businesses
+                .Where(b => b.Id == businessId)
+                .SelectMany(b => b.Contacts)
+                .Select(c => new ContactDto
+                {
+                    Emails = c.Contact.Emails.Select(e => e.Email).ToList(),
+                    PhoneNumbers = c.Contact.PhoneNumbers.Select(p => p.PhoneNumber).ToList(),
+                    UrlSites = c.Contact.URlSites.Select(u => u.UrlSite).ToList()
+                })
+                .ToListAsync();
+
+            return contacts;
         }
-
-        public Task<ApiResponse> UpdateContactAsync(int id, Guid businessId, ContactDto contactDto)
+        public async Task<ContactDto> GetContactByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var contactDto = await _dbContext.Contacts
+            .Where(c => c.Id == id)
+            .Select(c => new ContactDto
+            {
+                Emails = c.Emails.Select(e => e.Email).ToList(),
+                PhoneNumbers = c.PhoneNumbers.Select(p => p.PhoneNumber).ToList(),
+                UrlSites = c.URlSites.Select(u => u.UrlSite).ToList()
+            })
+            .FirstOrDefaultAsync();
+
+            return contactDto;
         }
     }
 }

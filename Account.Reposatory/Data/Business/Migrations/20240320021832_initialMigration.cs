@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Account.Reposatory.Data.Business.Migrations
 {
-    public partial class initialMigrations1 : Migration
+    public partial class initialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -49,18 +49,14 @@ namespace Account.Reposatory.Data.Business.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Location",
+                name: "Contacts",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Latitude = table.Column<decimal>(type: "decimal(10,7)", nullable: false),
-                    Longitude = table.Column<decimal>(type: "decimal(10,7)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BusinessId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Location", x => x.Id);
+                    table.PrimaryKey("PK_Contacts", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -75,7 +71,9 @@ namespace Account.Reposatory.Data.Business.Migrations
                     ProfilePictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AlbumUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    LocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Latitude = table.Column<decimal>(type: "decimal(10,8)", nullable: false),
+                    Longitude = table.Column<decimal>(type: "decimal(11,8)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     WorkStartHour = table.Column<int>(type: "int", nullable: false),
                     WorkEndHour = table.Column<int>(type: "int", nullable: false),
                     WorkingDays = table.Column<int>(type: "int", nullable: false)
@@ -88,30 +86,46 @@ namespace Account.Reposatory.Data.Business.Migrations
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Businesses_Location_LocationId",
-                        column: x => x.LocationId,
-                        principalTable: "Location",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Contact",
+                name: "Emails",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SiteUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BusinessId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    BusinessModelId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ContactId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Contact", x => x.Id);
+                    table.PrimaryKey("PK_Emails", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Contact_Businesses_BusinessModelId",
-                        column: x => x.BusinessModelId,
-                        principalTable: "Businesses",
-                        principalColumn: "Id");
+                        name: "FK_Emails_Contacts_ContactId",
+                        column: x => x.ContactId,
+                        principalTable: "Contacts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "URlSites",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UrlSite = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ContactId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_URlSites", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_URlSites_Contacts_ContactId",
+                        column: x => x.ContactId,
+                        principalTable: "Contacts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -139,7 +153,7 @@ namespace Account.Reposatory.Data.Business.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Holiday",
+                name: "Holidays",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -150,12 +164,38 @@ namespace Account.Reposatory.Data.Business.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Holiday", x => x.Id);
+                    table.PrimaryKey("PK_Holidays", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Holiday_Businesses_BusinessModelId",
+                        name: "FK_Holidays_Businesses_BusinessModelId",
                         column: x => x.BusinessModelId,
                         principalTable: "Businesses",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PhoneNumbers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ContactId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    BusinessModelId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PhoneNumbers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PhoneNumbers_Businesses_BusinessModelId",
+                        column: x => x.BusinessModelId,
+                        principalTable: "Businesses",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_PhoneNumbers_Contacts_ContactId",
+                        column: x => x.ContactId,
+                        principalTable: "Contacts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -196,60 +236,10 @@ namespace Account.Reposatory.Data.Business.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Emails",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ContactId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Emails", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Emails_Contact_ContactId",
-                        column: x => x.ContactId,
-                        principalTable: "Contact",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PhoneNumbers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ContactId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PhoneNumbers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PhoneNumbers_Contact_ContactId",
-                        column: x => x.ContactId,
-                        principalTable: "Contact",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Businesses_CategoryId",
                 table: "Businesses",
                 column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Businesses_LocationId",
-                table: "Businesses",
-                column: "LocationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Contact_BusinessModelId",
-                table: "Contact",
-                column: "BusinessModelId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Emails_ContactId",
@@ -267,8 +257,13 @@ namespace Account.Reposatory.Data.Business.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Holiday_BusinessModelId",
-                table: "Holiday",
+                name: "IX_Holidays_BusinessModelId",
+                table: "Holidays",
+                column: "BusinessModelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PhoneNumbers_BusinessModelId",
+                table: "PhoneNumbers",
                 column: "BusinessModelId");
 
             migrationBuilder.CreateIndex(
@@ -285,6 +280,11 @@ namespace Account.Reposatory.Data.Business.Migrations
                 name: "IX_Reviews_BusinessId",
                 table: "Reviews",
                 column: "BusinessId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_URlSites_ContactId",
+                table: "URlSites",
+                column: "ContactId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -296,7 +296,7 @@ namespace Account.Reposatory.Data.Business.Migrations
                 name: "Favorites");
 
             migrationBuilder.DropTable(
-                name: "Holiday");
+                name: "Holidays");
 
             migrationBuilder.DropTable(
                 name: "PhoneNumbers");
@@ -308,19 +308,19 @@ namespace Account.Reposatory.Data.Business.Migrations
                 name: "Reviews");
 
             migrationBuilder.DropTable(
-                name: "AppUser");
+                name: "URlSites");
 
             migrationBuilder.DropTable(
-                name: "Contact");
+                name: "AppUser");
 
             migrationBuilder.DropTable(
                 name: "Businesses");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Contacts");
 
             migrationBuilder.DropTable(
-                name: "Location");
+                name: "Categories");
         }
     }
 }

@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Account.Core.Models.ProjectBusiness.Related
+{
+    public class Holiday
+    {
+        public int Id { get; set; }
+        public Guid BusinessId { get; set; }
+        public DateTime HolidayDate { get; set; }
+    }
+}

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Account.Core.Models.ProjectBusiness;
 using Account.Core.Models.ProjectBusiness.Contacts;
+using Account.Core.Models.ProjectBusiness.Related;
 
 namespace Account.Core.Models.Projectbusiness
 {
@@ -30,7 +31,7 @@ namespace Account.Core.Models.Projectbusiness
         public int WorkEndHour { get; set; }
         public int WorkingDays { get; set; }
         public virtual ICollection<Holiday> Holidays { get; set; } = new List<Holiday>();
-        public virtual ICollection<Contact> Contacts { get; set; } = new List<Contact>();
+        public virtual ICollection<PhoneNumbers> Contacts { get; set; } = new List<PhoneNumbers>();
         public ICollection<Rating> BusinessRatings { get; set; } = new List<Rating>();
         public ICollection<Review> BusinessReviews { get; set; } = new List<Review>();
         public ICollection<Favorite> BusinessFavorites { get; set; } = new List<Favorite>();

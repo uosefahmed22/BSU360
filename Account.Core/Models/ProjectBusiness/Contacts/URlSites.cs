@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace Account.Core.Models.ProjectBusiness.Contacts
 {
-    public class Emails
+    public class URlSites
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Email is required.")]
-        [EmailAddress(ErrorMessage = "Invalid email address format.")]
-        public string Email { get; set; }
+        [Required(ErrorMessage = "UrlSite is required.")]
+        [Url(ErrorMessage = "Invalid URL format.")]
+        public string UrlSite { get; set; }
 
         public Guid ContactId { get; set; }
         public Contacts Contact { get; set; }
-    }
 
+    }
 }
