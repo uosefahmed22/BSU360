@@ -1,5 +1,6 @@
 ﻿using Account.Apis.Errors;
 using Account.Core.Models.Projectbusiness;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

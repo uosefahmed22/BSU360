@@ -3,6 +3,7 @@ using Account.Core.Services.Business;
 using Account.Reposatory.Data.Business;
 using Account.Reposatory.Data.Identity;
 using Account.Reposatory.Reposatories.Buisness;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -42,8 +43,6 @@ namespace Account.Apis.Extentions
                 Options.UseSqlServer(configuration.GetConnectionString("BusinessConnections"));
             });
 
-            // Register a scoped service for payment services
-
             service.AddScoped<IBusnissRepository, BusnissRepository>();
             service.AddScoped<ICategoryRepository, CategoryRepository>();
             service.AddScoped<IReviewRepository, ReviewRepository>();
@@ -51,13 +50,6 @@ namespace Account.Apis.Extentions
             service.AddScoped<IRatingRepository, RatingRepository>();
             service.AddScoped<IHolidayRepository, HolidayRepository>();
             service.AddScoped<IContactRepository, ContactRepository>();
-
-
-
-
-
-
-
 
 
             //Add here anny otehrt injection related to program....

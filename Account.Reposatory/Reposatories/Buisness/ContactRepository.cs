@@ -141,7 +141,6 @@ namespace Account.Reposatory.Reposatories.Buisness
 
             return contacts;
         }
-
         public async Task<ContactDto> GetContactByIdAsync(Guid id)
         {
             var contactDto = await _dbContext.Contacts

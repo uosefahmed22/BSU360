@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,13 +22,13 @@ namespace Account.Reposatory.Reposatories.Buisness
         {
             _context = context;
         }
-        public async Task<Category> AddCategoryAsync(CategoryDto categoryDto)
+        public async Task<ApiResponse> AddCategoryAsync(CategoryDto categoryDto)
         {
             var existingCategory = await _context.Categories.FirstOrDefaultAsync(c => c.Name == categoryDto.Name);
 
-            if (existingCategory != null && existingCategory.Name == categoryDto.Name)
+            if (existingCategory != null)
             {
-                throw new ArgumentException("Category with the same name already exists.");
+                return new ApiResponse(400, "Category with the same name already exists.");
             }
 
             var category = new Category
@@ -38,9 +39,9 @@ namespace Account.Reposatory.Reposatories.Buisness
 
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();
-
-            return category;
+            return new ApiResponse(200, "Category added successfully");
         }
+
         public async Task<ApiResponse> DeleteCategoryAsync(Guid id)
         {
             var category = await _context.Categories.FindAsync(id);

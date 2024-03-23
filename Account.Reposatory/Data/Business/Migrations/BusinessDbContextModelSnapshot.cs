@@ -78,6 +78,28 @@ namespace Account.Reposatory.Data.Business.Migrations
                     b.ToTable("AppUser");
                 });
 
+            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.AlbumUrl", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<Guid?>("BusinessModelId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PictureUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BusinessModelId");
+
+                    b.ToTable("AlbumUrls");
+                });
+
             modelBuilder.Entity("Account.Core.Models.Projectbusiness.BusinessModel", b =>
                 {
                     b.Property<Guid>("Id")
@@ -95,10 +117,7 @@ namespace Account.Reposatory.Data.Business.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("AlbumUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("CategoryId")
+                    b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Latitude")
@@ -160,7 +179,12 @@ namespace Account.Reposatory.Data.Business.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("BusinessModelId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("BusinessModelId");
 
                     b.ToTable("Contacts");
                 });
@@ -195,9 +219,6 @@ namespace Account.Reposatory.Data.Business.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<Guid?>("BusinessModelId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("ContactId")
                         .HasColumnType("uniqueidentifier");
 
@@ -206,8 +227,6 @@ namespace Account.Reposatory.Data.Business.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BusinessModelId");
 
                     b.HasIndex("ContactId");
 
@@ -236,7 +255,7 @@ namespace Account.Reposatory.Data.Business.Migrations
                     b.ToTable("URlSites");
                 });
 
-            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Favorite", b =>
+            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Related.Favorite", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -257,7 +276,7 @@ namespace Account.Reposatory.Data.Business.Migrations
                     b.ToTable("Favorites");
                 });
 
-            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Holiday", b =>
+            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Related.Holiday", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -268,20 +287,17 @@ namespace Account.Reposatory.Data.Business.Migrations
                     b.Property<Guid>("BusinessId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("BusinessModelId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("HolidayDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BusinessModelId");
+                    b.HasIndex("BusinessId");
 
                     b.ToTable("Holidays");
                 });
 
-            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Rating", b =>
+            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Related.Rating", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -300,7 +316,7 @@ namespace Account.Reposatory.Data.Business.Migrations
                     b.ToTable("Ratings");
                 });
 
-            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Review", b =>
+            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Related.Review", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -320,13 +336,32 @@ namespace Account.Reposatory.Data.Business.Migrations
                     b.ToTable("Reviews");
                 });
 
+            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.AlbumUrl", b =>
+                {
+                    b.HasOne("Account.Core.Models.Projectbusiness.BusinessModel", null)
+                        .WithMany("AlbumUrls")
+                        .HasForeignKey("BusinessModelId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Account.Core.Models.Projectbusiness.BusinessModel", b =>
                 {
-                    b.HasOne("Account.Core.Models.ProjectBusiness.Category", "Category")
+                    b.HasOne("Account.Core.Models.ProjectBusiness.Category", null)
                         .WithMany("Businesses")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-                    b.Navigation("Category");
+            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Contacts.Contacts", b =>
+                {
+                    b.HasOne("Account.Core.Models.Projectbusiness.BusinessModel", "BusinessModel")
+                        .WithMany("Contacts")
+                        .HasForeignKey("BusinessModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BusinessModel");
                 });
 
             modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Contacts.Emails", b =>
@@ -342,10 +377,6 @@ namespace Account.Reposatory.Data.Business.Migrations
 
             modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Contacts.PhoneNumbers", b =>
                 {
-                    b.HasOne("Account.Core.Models.Projectbusiness.BusinessModel", null)
-                        .WithMany("Contacts")
-                        .HasForeignKey("BusinessModelId");
-
                     b.HasOne("Account.Core.Models.ProjectBusiness.Contacts.Contacts", "Contact")
                         .WithMany("PhoneNumbers")
                         .HasForeignKey("ContactId")
@@ -366,10 +397,10 @@ namespace Account.Reposatory.Data.Business.Migrations
                     b.Navigation("Contact");
                 });
 
-            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Favorite", b =>
+            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Related.Favorite", b =>
                 {
                     b.HasOne("Account.Core.Models.Projectbusiness.BusinessModel", "Business")
-                        .WithMany("BusinessFavorites")
+                        .WithMany()
                         .HasForeignKey("BusinessId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -383,17 +414,10 @@ namespace Account.Reposatory.Data.Business.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Holiday", b =>
-                {
-                    b.HasOne("Account.Core.Models.Projectbusiness.BusinessModel", null)
-                        .WithMany("Holidays")
-                        .HasForeignKey("BusinessModelId");
-                });
-
-            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Rating", b =>
+            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Related.Holiday", b =>
                 {
                     b.HasOne("Account.Core.Models.Projectbusiness.BusinessModel", "Business")
-                        .WithMany("BusinessRatings")
+                        .WithMany("Holidays")
                         .HasForeignKey("BusinessId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -401,10 +425,21 @@ namespace Account.Reposatory.Data.Business.Migrations
                     b.Navigation("Business");
                 });
 
-            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Review", b =>
+            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Related.Rating", b =>
                 {
                     b.HasOne("Account.Core.Models.Projectbusiness.BusinessModel", "Business")
-                        .WithMany("BusinessReviews")
+                        .WithMany()
+                        .HasForeignKey("BusinessId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Business");
+                });
+
+            modelBuilder.Entity("Account.Core.Models.ProjectBusiness.Related.Review", b =>
+                {
+                    b.HasOne("Account.Core.Models.Projectbusiness.BusinessModel", "Business")
+                        .WithMany()
                         .HasForeignKey("BusinessId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -419,11 +454,7 @@ namespace Account.Reposatory.Data.Business.Migrations
 
             modelBuilder.Entity("Account.Core.Models.Projectbusiness.BusinessModel", b =>
                 {
-                    b.Navigation("BusinessFavorites");
-
-                    b.Navigation("BusinessRatings");
-
-                    b.Navigation("BusinessReviews");
+                    b.Navigation("AlbumUrls");
 
                     b.Navigation("Contacts");
 

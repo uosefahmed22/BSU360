@@ -14,8 +14,8 @@ namespace Account.Core.Services.Business
     {
         Task<BusinessModel> GetByIdAsync(Guid id);
         Task<IEnumerable<BusinessModel>> GetAllAsync();
-        Task<ApiResponse> AddBusnissAsync(BusinessModel businessModel);
-        Task<ApiResponse> UpdateAsync(BusinessModel businessModel);
-        Task DeleteAsync(Guid id);
+        Task<ApiResponse> AddBusinessAsync(BusinessDto businessDto);
+        Task<ApiResponse> UpdateBusinessAsync(BusinessDto businessDto, Guid businessId);
+        Task<ApiResponse> DeleteAsync(Guid id);
     }   
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Account.Core.Models.Projectbusiness;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,8 @@ namespace Account.Core.Models.ProjectBusiness.Contacts
             PhoneNumbers = new List<PhoneNumbers>();
             URlSites = new List<URlSites>();
         }
-
+        public Guid BusinessModelId { get; set; }
+        public BusinessModel BusinessModel { get; set; }
         public List<Emails> Emails { get; set; }
         public List<PhoneNumbers> PhoneNumbers { get; set; }
         public List<URlSites> URlSites { get; set; }

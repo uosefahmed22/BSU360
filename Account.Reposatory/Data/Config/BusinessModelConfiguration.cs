@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Account.Core.Models.ProjectBusiness.Contacts;
+using System.Reflection.Emit;
 
 namespace Account.Reposatory.Data.Config
 {
@@ -22,7 +24,21 @@ namespace Account.Reposatory.Data.Config
             builder.Property(b => b.Address)
                 .IsRequired();
 
+            builder.HasMany(b => b.Holidays)
+               .WithOne(h => h.Business)
+               .HasForeignKey(h => h.BusinessId) 
+               .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(b => b.AlbumUrls)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(b => b.Contacts)
+                .WithOne(c => c.BusinessModel)
+                .HasForeignKey(c => c.BusinessModelId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
+
     }
 
 }

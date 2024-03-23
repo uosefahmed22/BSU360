@@ -5,6 +5,8 @@ using Account.Core.Services.Business;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 namespace Account.Apis.Controllers
 {
@@ -17,26 +19,24 @@ namespace Account.Apis.Controllers
             _categoryRepository = categoryRepository;
         }
         [HttpPost("CreateCategory")]
-        [Authorize(Roles = "Admin")]
-       
+        //[Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> AddCategory([FromBody] CategoryDto categoryDto)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
-                    return BadRequest(new ApiResponse(400));
+                    return BadRequest(new ApiResponse(400, "Invalid model state"));
                 }
 
-                var category = await _categoryRepository.AddCategoryAsync(categoryDto);
-
-                return Ok(category);
+                var response = await _categoryRepository.AddCategoryAsync(categoryDto);
+                return StatusCode(200);
             }
-            catch (ArgumentException ex)
+            catch (DbUpdateException ex)
             {
-                return BadRequest(new ApiResponse(400, ex.Message));
+                return StatusCode((int)HttpStatusCode.InternalServerError, new ApiResponse(400, "An error occurred while adding the category."));
             }
-            
         }
 
         [HttpDelete("{id}")]

@@ -27,6 +27,7 @@ namespace Account.Reposatory.Data.Business
         public DbSet<BusinessModel> Businesses { get; set; }
         public DbSet<Holiday> Holidays { get; set; }
         public DbSet<Contacts> Contacts { get; set; }
+        public DbSet<AlbumUrl> AlbumUrls { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Rating> Ratings { get; set; }

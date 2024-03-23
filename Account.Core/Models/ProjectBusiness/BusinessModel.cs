@@ -24,19 +24,18 @@ namespace Account.Core.Models.Projectbusiness
         public string AboutAR { get; set; }
         public string? AboutENG { get; set; }
         public string? ProfilePictureUrl { get; set; }
-        public string? AlbumUrl { get; set; }
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
         public string Address { get; set; }
         public int WorkStartHour { get; set; }
         public int WorkEndHour { get; set; }
         public int WorkingDays { get; set; }
+        public virtual ICollection<AlbumUrl> AlbumUrls { get; set; } = new List<AlbumUrl>();
         public virtual ICollection<Holiday> Holidays { get; set; } = new List<Holiday>();
         public virtual ICollection<Contacts> Contacts { get; set; } = new List<Contacts>();
         public Guid CategoryId { get; set; }
-
-        [Required(ErrorMessage = "User ID is required.")]
-        public Guid BusinessOwnerId { get; set; }
     }
-
 }
+//Commented untill cretae BusinessOwner
+//[Required(ErrorMessage = "User ID is required.")]
+// public Guid BusinessOwnerId { get; set; }
