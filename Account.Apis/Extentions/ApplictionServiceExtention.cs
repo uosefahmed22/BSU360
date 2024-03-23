@@ -1,10 +1,12 @@
 ﻿using Account.Apis.Errors;
 using Account.Core.Services.Business;
+using Account.Core.Services.Properties;
 using Account.Core.Services.Related;
 using Account.Core.Services.ServiceProvider;
 using Account.Reposatory.Data.Business;
 using Account.Reposatory.Data.Identity;
 using Account.Reposatory.Reposatories.Buisness;
+using Account.Reposatory.Reposatories.Properties;
 using Account.Reposatory.Reposatories.Related;
 using Account.Reposatory.Reposatories.ServiceProvider;
 using Microsoft.AspNetCore.Hosting;
@@ -57,6 +59,8 @@ namespace Account.Apis.Extentions
 
 
             service.AddScoped<IServiceProviderReposatory, ServiceProviderReposatory>();
+            service.AddScoped<IPropertiesReposatory, PropertiesReposatory>();
+
 
 
 

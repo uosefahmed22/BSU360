@@ -1,6 +1,7 @@
 ﻿using Account.Core.Models.Projectbusiness;
 using Account.Core.Models.ProjectBusiness;
 using Account.Core.Models.ProjectBusiness.Contacts;
+using Account.Core.Models.Properties;
 using Account.Core.Models.Related;
 using Account.Core.Models.ServiceProvider;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +35,7 @@ namespace Account.Reposatory.Data.Business
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
         public DbSet<ServicesProviderdModel> ServicesProviderd { get; set; }
+        public DbSet<PropertiesModel> PropertiesModel { get; set; }
     }
 
 }
