@@ -1,8 +1,12 @@
 ﻿using Account.Apis.Errors;
 using Account.Core.Services.Business;
+using Account.Core.Services.Related;
+using Account.Core.Services.ServiceProvider;
 using Account.Reposatory.Data.Business;
 using Account.Reposatory.Data.Identity;
 using Account.Reposatory.Reposatories.Buisness;
+using Account.Reposatory.Reposatories.Related;
+using Account.Reposatory.Reposatories.ServiceProvider;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -50,6 +54,11 @@ namespace Account.Apis.Extentions
             service.AddScoped<IRatingRepository, RatingRepository>();
             service.AddScoped<IHolidayRepository, HolidayRepository>();
             service.AddScoped<IContactRepository, ContactRepository>();
+
+
+            service.AddScoped<IServiceProviderReposatory, ServiceProviderReposatory>();
+
+
 
 
             //Add here anny otehrt injection related to program....

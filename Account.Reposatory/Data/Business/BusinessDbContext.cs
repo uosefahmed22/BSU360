@@ -1,7 +1,8 @@
 ﻿using Account.Core.Models.Projectbusiness;
 using Account.Core.Models.ProjectBusiness;
 using Account.Core.Models.ProjectBusiness.Contacts;
-using Account.Core.Models.ProjectBusiness.Related;
+using Account.Core.Models.Related;
+using Account.Core.Models.ServiceProvider;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -27,11 +28,12 @@ namespace Account.Reposatory.Data.Business
         public DbSet<BusinessModel> Businesses { get; set; }
         public DbSet<Holiday> Holidays { get; set; }
         public DbSet<Contacts> Contacts { get; set; }
-        public DbSet<AlbumUrl> AlbumUrls { get; set; }
+        public DbSet<BusinessAlbumUrl> AlbumUrls { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
+        public DbSet<ServicesProviderdModel> ServicesProviderd { get; set; }
     }
 
 }

@@ -1,4 +1,4 @@
-﻿using Account.Core.Models.ProjectBusiness.Related;
+﻿using Account.Core.Models.Related;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;

@@ -4,7 +4,6 @@ using Account.Core.Dtos.Business.ContactsGertAll;
 using Account.Core.Models.Projectbusiness;
 using Account.Core.Models.ProjectBusiness;
 using Account.Core.Models.ProjectBusiness.Contacts;
-using Account.Core.Models.ProjectBusiness.Related;
 using Account.Core.Services.Business;
 using Account.Reposatory.Data.Business;
 using Microsoft.EntityFrameworkCore;
@@ -53,7 +52,7 @@ namespace Account.Reposatory.Reposatories.Buisness
                     WorkingDays = businessDto.WorkingDays,
                     CategoryId = businessDto.CategoryId,
                     Holidays = businessDto.Holidays.Select(date => new Holiday { HolidayDate = date }).ToList(),
-                    AlbumUrls = businessDto.AlbumUrls.Select(url => new AlbumUrl { PictureUrl = url }).ToList(),
+                    AlbumUrls = businessDto.AlbumUrls.Select(url => new BusinessAlbumUrl { PictureUrl = url }).ToList(),
                     Contacts = new List<Contacts>
             {
                 new Contacts
@@ -185,7 +184,7 @@ namespace Account.Reposatory.Reposatories.Buisness
                 businessModel.AlbumUrls.Clear(); // Clear existing AlbumUrls
                 foreach (var url in businessDto.AlbumUrls)
                 {
-                    businessModel.AlbumUrls.Add(new AlbumUrl { PictureUrl = url });
+                    businessModel.AlbumUrls.Add(new BusinessAlbumUrl { PictureUrl = url });
                 }
 
                 await _context.SaveChangesAsync();
