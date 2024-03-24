@@ -1,7 +1,7 @@
 using Account.Apis.Errors;
 using Account.Apis.Extentions;
 using Account.Core.Models.Account;
-using Account.Core.Models.Identity;
+using Account.Core.Models.Account.Identity;
 using Account.Reposatory.Data.Business;
 using Account.Reposatory.Data.Identity;
 using Microsoft.AspNetCore.Identity;

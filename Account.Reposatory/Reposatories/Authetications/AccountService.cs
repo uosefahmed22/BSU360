@@ -1,6 +1,5 @@
 ﻿using Account.Apis.Errors;
 using Account.Core.Models.Account;
-using Account.Core.Models.Identity;
 using Account.Reposatory.Data.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +18,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Caching.Memory;
 using Account.Core.Services.Authentications;
+using Account.Core.Models.Account.Identity;
 
 namespace Account.Reposatory.Reposatories.Authetications
 {

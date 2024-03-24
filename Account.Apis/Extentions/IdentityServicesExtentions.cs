@@ -1,4 +1,4 @@
-﻿using Account.Core.Models.Identity;
+﻿using Account.Core.Models.Account.Identity;
 using Account.Core.Services.Authentications;
 using Account.Reposatory.Data.Identity;
 using Account.Reposatory.Reposatories.Authetications;

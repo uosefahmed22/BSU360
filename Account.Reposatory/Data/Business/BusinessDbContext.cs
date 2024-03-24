@@ -1,4 +1,5 @@
-﻿using Account.Core.Models.Projectbusiness;
+﻿using Account.Core.Models.Jobs;
+using Account.Core.Models.Projectbusiness;
 using Account.Core.Models.ProjectBusiness;
 using Account.Core.Models.ProjectBusiness.Contacts;
 using Account.Core.Models.Properties;
@@ -36,6 +37,7 @@ namespace Account.Reposatory.Data.Business
         public DbSet<Favorite> Favorites { get; set; }
         public DbSet<ServicesProviderdModel> ServicesProviderd { get; set; }
         public DbSet<PropertiesModel> PropertiesModel { get; set; }
+        public DbSet<JobsModel> JobsModel { get; set; }
     }
 
 }

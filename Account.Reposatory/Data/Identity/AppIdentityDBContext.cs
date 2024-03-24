@@ -1,4 +1,4 @@
-﻿using Account.Core.Models.Identity;
+﻿using Account.Core.Models.Account.Identity;
 using Account.Reposatory.Data.Business;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

@@ -1,4 +1,4 @@
-﻿using Account.Core.Models.Identity;
+﻿using Account.Core.Models.Account.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;

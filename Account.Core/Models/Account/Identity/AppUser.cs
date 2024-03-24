@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Account.Core.Models.Identity
+namespace Account.Core.Models.Account.Identity
 {
     public class AppUser : IdentityUser
     {
